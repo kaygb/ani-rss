@@ -1,15 +1,19 @@
 package ani.rss.notification;
 
 import ani.rss.entity.Ani;
+import ani.rss.entity.WebHookHeader;
 import ani.rss.entity.NotificationConfig;
 import ani.rss.enums.NotificationStatusEnum;
 import ani.rss.util.HttpReq;
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Opt;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.Method;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
 
 /**
  * WebHook
@@ -21,6 +25,7 @@ public class WebHookNotification implements BaseNotification {
         String webHookMethod = notificationConfig.getWebHookMethod();
         String webHookUrl = notificationConfig.getWebHookUrl();
         String webHookBody = notificationConfig.getWebHookBody();
+        List<WebHookHeader> headers = notificationConfig.getWebHookHeaders();
 
         webHookUrl = replaceNotificationTemplate(ani, webHookUrl, text, notificationStatusEnum);
         webHookBody = replaceNotificationTemplate(ani, webHookBody, text, notificationStatusEnum);
@@ -54,6 +59,12 @@ public class WebHookNotification implements BaseNotification {
 
         if (StrUtil.isNotBlank(webHookBody)) {
             httpRequest.body(webHookBody);
+        }
+        if (CollectionUtil.isNotEmpty(headers)) {
+            for (WebHookHeader header : headers) {
+                httpRequest.header(header.getKey(), header.getValue());
+                System.out.println("header: " + header.getKey() + " " + header.getValue());
+            }
         }
         return httpRequest.thenFunction(HttpResponse::isOk);
     }

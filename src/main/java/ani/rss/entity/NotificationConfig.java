@@ -135,6 +135,7 @@ public class NotificationConfig implements Serializable {
      */
     private String webHookBody;
 
+    private List<WebHookHeader> webHookHeaders;
 
     /**
      * emby扫描媒体库
@@ -156,7 +157,6 @@ public class NotificationConfig implements Serializable {
      * emby延迟扫描
      */
     private Long embyDelayed;
-
 
     /**
      * 通知 状态
@@ -203,7 +203,8 @@ public class NotificationConfig implements Serializable {
         notificationConfig
                 .setWebHookBody("")
                 .setWebHookUrl("")
-                .setWebHookMethod("POST");
+                .setWebHookMethod("POST")
+                .setWebHookHeaders(new ArrayList<>());
 
         // server-chan
         notificationConfig

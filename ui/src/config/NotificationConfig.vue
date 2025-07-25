@@ -95,6 +95,7 @@ let notificationConfig = ref({
   "telegramFormat": "",
   "webHookMethod": "POST",
   "webHookUrl": "",
+  "webHookHeaders": [],
   "webHookBody": "",
   "embyRefresh": false,
   "embyApiKey": "",
