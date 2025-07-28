@@ -17,13 +17,22 @@
       <el-input v-model:model-value="props.notificationConfig['webHookBody']" type="textarea" :autosize="{ minRows: 2 }"
         placeholder='{"text":"test_${notification}"}' />
     </el-form-item>
-    <el-form-item v-for="(config, index) in props.notificationConfig['webHookHeaders']" :label="'Header' + (index + 1)"
+    <el-form-item v-for="(config, index) in props.notificationConfig['webHookHeaders']" :label="'Headers' + (index + 1)"
       :key="config.key + index" :prop="'config.' + index + '.value'">
-      <el-input v-model="config.key" autosize></el-input>
-      <el-input v-model="config.value" autosize></el-input>
-      <el-button @click.prevent="removeHeader(config)">Delete</el-button>
+      <el-row :gutter="10">
+        <el-col :span="9">
+          <el-input v-model="config.key" placeholder="key" autosize></el-input>
+        </el-col>
+        <el-col :span="9">
+          <el-input v-model="config.value" placeholder="value" autosize></el-input>
+        </el-col>
+        <el-col :span="3">
+          <el-button type="danger" @click.prevent="removeHeader(config)">Delete</el-button>
+        </el-col>
+      </el-row>
     </el-form-item>
-    <el-button @click.prevent="addHeader()">Add Header</el-button>
+    <el-button type="primary" @click.prevent="addHeader()">Add Header</el-button>
+
     <div style="display: flex; justify-content: end">
       <a href="https://docs.wushuo.top/config/notification" target="_blank">通知模版示例</a>
     </div>
